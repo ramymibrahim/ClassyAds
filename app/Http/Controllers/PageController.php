@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Item;
 use App\Location;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -26,11 +27,17 @@ class PageController extends Controller
         }
         $items=$items->get();
 
+
+        $trendings = Item::whereDate('created_at','=',Carbon::today()->toDateString());
+        $trendings=$trendings->orderBy('rate','desc');
+        $trendings=$trendings->with('category');
+        $trendings=$trendings->get();        
         return view('index')->with([
             'categories'=>$categories,
             'locations'=>$locations,
-            'items'=>$items
-            ]);        
+            'items'=>$items,
+            'trendings'=>$trendings
+            ]);               
     }
     
 }

@@ -8,3 +8,7 @@
 	c. create function show inside the controller
 	d. select only one item using the function [firstOrFail($id)]
 	e. return view with the item
+
+[Tasks 04/11/2019]
+1. Style Login & Register views as the original template
+2. Review
