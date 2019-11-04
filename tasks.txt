@@ -1,0 +1,10 @@
+[Tasks 30/10/2019]
+1. Split the index view to (View & layout) []
+2. Create view items/show.blade.php [resources/view/items/show.blade.php]
+	Show a single item with details when the user access route
+	items/{id} e.g. items/1 by the following
+	a. create route
+	b. create ItemController
+	c. create function show inside the controller
+	d. select only one item using the function [firstOrFail($id)]
+	e. return view with the item
