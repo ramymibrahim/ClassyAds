@@ -16,9 +16,12 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                    $i=1;
+                    @endphp
                     @foreach($categories as $cat)
                     <tr>
-                        <td>{{$cat['id']}}</td>
+                        <td>{{$i++}}</td>
                         <td>{{$cat['name']}}</td>
                         <td>{{$cat['created_at']}}</td>
                         <td>{{$cat['updated_at']}}</td>
