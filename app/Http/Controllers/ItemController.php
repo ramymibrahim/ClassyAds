@@ -9,7 +9,8 @@ class ItemController extends Controller
     //
     public function show($id)
     {
-        $item=Item::findOrFail($id);        
+        
+        $item=Item::with('category')->findOrFail($id);        
         return view('items.show')->with('item',$item);
     }
 }

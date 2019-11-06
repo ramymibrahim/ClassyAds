@@ -15,12 +15,14 @@ Route::get('/', 'PageController@index');
 Route::get('/items/{id}', 'ItemController@show');
 
 Route::group(['middleware' => 'auth','prefix'=>'admin'], function () {
-    Route::get('categories', 'CategoryController@index');
-    Route::get('categories/create', 'CategoryController@create');
-    Route::post('categories', 'CategoryController@store');
-    Route::get('categories/{id}/edit', 'CategoryController@edit');
-    Route::put('categories/{id}', 'CategoryController@update');
-    Route::delete('categories/{id}', 'CategoryController@destroy');
+    // Route::get('categories', 'CategoryController@index');
+    // Route::get('categories/create', 'CategoryController@create');
+    // Route::post('categories', 'CategoryController@store');
+    // Route::get('categories/{id}/edit', 'CategoryController@edit');
+    // Route::put('categories/{id}', 'CategoryController@update');
+    // Route::delete('categories/{id}', 'CategoryController@destroy');
+
+    Route::resource('categories','CategoryController');
 });
 
 Auth::routes();
