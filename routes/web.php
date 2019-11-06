@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth','prefix'=>'admin'], function () {
     // Route::delete('categories/{id}', 'CategoryController@destroy');
 
     Route::resource('categories','CategoryController');
+    Route::resource('locations','LocationController');
+    Route::resource('items','ItemController');
 });
 
 Auth::routes();

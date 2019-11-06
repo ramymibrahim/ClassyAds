@@ -12,3 +12,10 @@
 [Tasks 04/11/2019]
 1. Style Login & Register views as the original template
 2. Review
+
+
+[Tasks 06/11/2019]
+1. Complete Location Controller & Views
+2. Items index view with category
+3. edit item + update without image and locations
+4. destroy item
