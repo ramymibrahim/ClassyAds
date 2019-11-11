@@ -19,3 +19,6 @@
 2. Items index view with category
 3. edit item + update without image and locations
 4. destroy item
+
+[Tasks 11/11/2019]
+1. get_url
