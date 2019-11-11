@@ -70,8 +70,8 @@ function get_url($col){
                         <td>{{$item['created_at']}}</td>
                         <td>{{$item['updated_at']}}</td>
                         <td>
-                            <a href="{{url('admin/categories/'.$item['id'].'/edit')}}" class="btn btn-primary">Edit</a>
-                            <form action="{{url('admin/categories/'.$item['id'])}}" method="POST" style="display:inline;">
+                            <a href="{{url('admin/items/'.$item['id'].'/edit')}}" class="btn btn-primary">Edit</a>
+                            <form action="{{url('admin/items/'.$item['id'])}}" method="POST" style="display:inline;">
                                 {{method_field('DELETE')}}
                                 @csrf
                                 <button class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>

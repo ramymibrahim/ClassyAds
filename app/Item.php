@@ -14,6 +14,6 @@ class Item extends Model
 
     public function locations()
     {
-        return $this->belongsToMany('App\Location');
+        return $this->belongsToMany('App\Location','location_item');
     }
 }

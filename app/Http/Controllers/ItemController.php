@@ -24,7 +24,7 @@ class ItemController extends Controller
         if ($request->has('keywords')) {
             $items = $items->where('name', 'like', '%' . $request['keywords'] . '%');
         }
-        $items = $items->paginate(5);                        
+        $items = $items->paginate(5);
         return view('items.index')->with('items', $items);
     }
 
@@ -50,6 +50,7 @@ class ItemController extends Controller
             'price' => 'required'
 
         ]);
+        dd($request->all());
         $item = new Item($request->all());
         $item['rate'] = 0;
         $item['rate_count'] = 0;
@@ -58,6 +59,8 @@ class ItemController extends Controller
             Session::flash('alert', 'Record Added Successfully!');
         else
             Session::flash('alert-danger', 'Error while adding record!');
+        if ($request->has('location_id'))
+            $item->locations()->attach($request['location_id']);
         return redirect('admin/items');
     }
     //
@@ -68,7 +71,16 @@ class ItemController extends Controller
         return view('items.show')->with('item', $item);
     }
 
-    function  destroy($id)
-    {        
+    public function edit($id)
+    {
+        $categories = Category::pluck('name', 'id');
+        $locations = Location::pluck('name', 'id');
+        return view('items.edit')
+        ->with('locations',$locations)
+        ->with('categories',$categories)
+        ->with('item',Item::findOrFail($id));
+                
     }
+    function  destroy($id)
+    { }
 }
