@@ -16,7 +16,7 @@
                     <option value="{{$k}}" {{(old('category_id',$item['category_id'])==$k)?"selected":""}}>{{$v}}</option>
                     @endforeach
                 </select>
-                <label>Image: </label><input type="file" name="image_file" />
+                <label>Image: </label><input type="file" name="image" />
                 <textarea class="form-control" name="details" placeholder="Details">{{old('details',$item['details'])}}</textarea>
                 <input type="number" name="price" step="0.01" class="form-control" placeholder="Price" value="{{old('price',$item['price'])}}" />
                 @error('price')
@@ -25,7 +25,7 @@
                 <textarea class="form-control" name="address" placeholder="Address">{{old('address',$item['address'])}}</textarea>                
 
                 <label>Locations:</label>
-                @php
+                @php                
                 $location_ids =$item->locations()->select('location_id','item_id')->pluck('location_id');
                 $lis = [];
                 foreach($location_ids as $k=>$v){

@@ -15,7 +15,7 @@
                     <option value="{{$k}}" {{(old('category_id')==$k)?"selected":""}}>{{$v}}</option>
                     @endforeach
                 </select>
-                <label>Image: </label><input type="file" name="image_file" />
+                <label>Image: </label><input type="file" name="image" />
                 <textarea class="form-control" name="details" placeholder="Details">{{old('details')}}</textarea>
                 <input type="number" name="price" step="0.01" class="form-control" placeholder="Price" value="{{old('price')}}" />
                 @error('price')

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Item;
 use App\Location;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -44,23 +45,21 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'category_id' => 'required',
-            'price' => 'required'
-
-        ]);
-        dd($request->all());
+        $this->validate($request, Item::$rules);
         $item = new Item($request->all());
+
+
         $item['rate'] = 0;
         $item['rate_count'] = 0;
-        $item['image'] = 'images/img_4.jpg';
-        if ($item->save())
+        if ($request->hasFile('image')) {
+            $file_name = $request->file('image')->store('images', ['disk' => 'public_path']);
+            $item['image'] = $file_name;
+        }
+        if ($item->save()) {
             Session::flash('alert', 'Record Added Successfully!');
-        else
-            Session::flash('alert-danger', 'Error while adding record!');
-        if ($request->has('location_id'))
             $item->locations()->attach($request['location_id']);
+        } else
+            Session::flash('alert-danger', 'Error while adding record!');
         return redirect('admin/items');
     }
     //
@@ -75,12 +74,32 @@ class ItemController extends Controller
     {
         $categories = Category::pluck('name', 'id');
         $locations = Location::pluck('name', 'id');
+        $item=Item::findOrFail($id);
+        
         return view('items.edit')
-        ->with('locations',$locations)
-        ->with('categories',$categories)
-        ->with('item',Item::findOrFail($id));
-                
+            ->with('locations', $locations)
+            ->with('categories', $categories)
+            ->with('item', $item);
     }
+
+    public function update($id, Request $request)
+    {
+        $item = Item::findOrFail($id);
+        $this->validate($request, Item::$rules);
+        $item->fill($request->all());
+        if ($request->hasFile('image')) {
+            $file_name = $request->file('image')->store('images', ['disk' => 'public_path']);
+            $item['image'] = $file_name;
+        }
+        $item->save();
+        $item->locations()->sync($request['location_id']);
+        return redirect('admin/items/');
+    }
+
     function  destroy($id)
-    { }
+    {
+        $item = Item::findOrFail($id);
+        $item->destroy($id);
+        return redirect('admin/items');
+    }
 }

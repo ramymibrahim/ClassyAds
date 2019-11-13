@@ -24,36 +24,30 @@ function get_url($col){
                     </form>
                 </div>
             </div>
-
-
+            @php
+            function get_sort_url($column){
+                $query_arr=[];
+                $query_arr['orderBy']=$column;
+                if(request()->has('orderBy') && request('orderBy')==$column && (!request()->has('sortOrder') || request('sortOrder')=='asc')){
+                    $query_arr['sortOrder']='desc';
+                }
+                else{
+                    $query_arr['sortOrder']='asc';
+                }
+                if(request()->has('keywords')){
+                    $query_arr['keywords']=request('keywords');
+                }
+                return request()->fullUrlWithQuery($query_arr);
+            }
+            @endphp            
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <td>Id</td>
-                        @if(request()->has('orderBy') && request('orderBy')=='name' && !request()->has('sortOrder'))
-                        <td><a href="{{url('/admin/items')}}?orderBy=name&sortOrder=desc&{{request()->has('keywords')?'keywords='.request()->input()['keywords']:''}}"> Name</a></td>
-                        @else
-                        <td><a href="{{url('/admin/items')}}?orderBy=name&{{request()->has('keywords')?'keywords='.request()->input()['keywords']:''}}"> Name</a></td>
-                        @endif
-
-                        @if(request()->has('orderBy') && request('orderBy')=='category_id' && !request()->has('sortOrder'))
-                        <td><a href="{{url('/admin/items')}}?orderBy=category_id&sortOrder=desc&{{request()->has('keywords')?'keywords='.request()->input()['keywords']:''}}">Category</a></td>
-                        @else
-                        <td><a href="{{url('/admin/items')}}?orderBy=category_id&{{request()->has('keywords')?'keywords='.request()->input()['keywords']:''}}"> Category</a></td>
-                        @endif
-
-                        @if(request()->has('orderBy') && request('orderBy')=='created_at' && !request()->has('sortOrder'))
-                        <td><a href="{{url('/admin/items')}}?orderBy=created_at&sortOrder=desc&{{request()->has('keywords')?'keywords='.request()->input()['keywords']:''}}">Created At</a></td>
-                        @else
-                        <td><a href="{{url('/admin/items')}}?orderBy=created_at&{{request()->has('keywords')?'keywords='.request()->input()['keywords']:''}}"> Created At</a></td>
-                        @endif
-
-                        @if(request()->has('orderBy') && request('orderBy')=='updated_at' && !request()->has('sortOrder'))
-                        <td><a href="{{url('/admin/items')}}?orderBy=updated_at&sortOrder=desc&{{request()->has('keywords')?'keywords='.request()->input()['keywords']:''}}">Updated At</a></td>
-                        @else
-                        <td><a href="{{url('/admin/items')}}?orderBy=updated_at&{{request()->has('keywords')?'keywords='.request()->input()['keywords']:''}}"> Updated At</a></td>
-                        @endif
-
+                        <td>Id</td>                        
+                        <td><a href="{{get_sort_url('name')}}"> Name</a></td>                        
+                        <td><a href="{{get_sort_url('category_id')}}"> Category</a></td>
+                        <td><a href="{{get_sort_url('created_at')}}">Created At</a></td>
+                        <td><a href="{{get_sort_url('updated_at')}}{{url('/admin/items')}}?orderBy=&sortOrder=desc&{{request()->has('keywords')?'keywords='.request()->input()['keywords']:''}}">Updated At</a></td>                        
                         <td>Action</td>
                     </tr>
                 </thead>
