@@ -66,7 +66,7 @@
                             <a href="#" class="popular-category h-100">
                                 <span class="icon"><span class="{{$categories[$i]['icon']}}"></span></span>
                                 <span class="caption mb-2 d-block">{{$categories[$i]['name']}}</span>
-                                <span class="number">0</span>
+                                <span class="number">{{$categories[$i]->items()->count()}}</span>
                             </a>
                     </div>
                     @endfor
