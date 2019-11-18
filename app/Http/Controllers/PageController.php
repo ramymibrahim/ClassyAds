@@ -7,11 +7,19 @@ use App\Item;
 use App\Location;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\View;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class PageController extends Controller
 {
-    public function index(Request $request)
+    public function __construct()
     {
+        //View::share('categories',['1','2','3']);
+    }
+    public function index(Request $request)
+    {           
+        View::share('page','home');
         $categories = Category::all();
         $locations = Location::all();
 
@@ -41,5 +49,19 @@ class PageController extends Controller
             'items' => $items,
             'trendings' => $trendings
         ]);
+    }
+
+    public function contact(){
+        View::share('page','contact');
+        return view('pages.contact');
+    }
+
+    //localhost:8000/lang/ar
+    //localhost:8000/lang/en    
+    public function setLang($lang){        
+        if(in_array($lang,['ar','en'])){
+            session(['lang'=>$lang]);                        
+        }        
+        return redirect()->back();
     }
 }

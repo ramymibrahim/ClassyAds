@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{app()->getLocale()}}" dir="{{__('index.dir')}}">
 
 <head>
-    <title>ClassyAds &mdash; Colorlib Website Template</title>
+    <title>{{__('index.classyads')}}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -24,10 +24,13 @@
 
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
+    @if(__('index.dir')=='rtl')
+    <link rel="stylesheet" href="{{asset('css/rtl.css')}}" >
+    @endif
+    
 </head>
 
 <body>
-
     <div class="site-wrap">
 
         <div class="site-mobile-menu">
@@ -38,7 +41,6 @@
             </div>
             <div class="site-mobile-menu-body"></div>
         </div>
-
         <header class="site-navbar container py-0 bg-white" role="banner">
 
             <!-- <div class="container"> -->
@@ -47,23 +49,25 @@
                 <div class="col-6 col-xl-2">
                     <h1 class="mb-0 site-logo"><a href="{{url('/')}}" class="text-black mb-0">Classy<span class="text-primary">Ads</span> </a></h1>
                 </div>
+                @php
+                if(!isset($page)){
+                    $page='home';
+                }
+                @endphp
                 <div class="col-12 col-md-10 d-none d-xl-block">
                     <nav class="site-navigation position-relative text-right" role="navigation">
-
                         <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
-                            <li class="active"><a href="{{url('/')}}">Home</a></li>
-                            <li><a href="listings.html">Ads</a></li>
+                            <li class="{{$page=='home'?'active':''}}"><a href="{{url('/')}}">{{__('index.home')}}</a></li>
+                            <li><a href="{{url('/items/all')}}">{{__('index.ads')}}</a></li>
                             <li class="has-children">
-                                <a href="about.html">About</a>
+                                <a href="{{'/about'}}">{{__('index.about')}}</a>
                                 <ul class="dropdown">
-                                    <li><a href="#">The Company</a></li>
-                                    <li><a href="#">The Leadership</a></li>
-                                    <li><a href="#">Philosophy</a></li>
-                                    <li><a href="#">Careers</a></li>
+                                    <li><a href="{{'/about'}}#Company">{{__('index.company')}}</a></li>                                    
+                                    <li><a href="{{'/about'}}#Philosophy">{{__('index.philosophy')}}</a></li>                                    
                                 </ul>
                             </li>
                             <li><a href="blog.html">Blog</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li class="{{$page=='contact'?'active':''}}"><a href="{{url('/contact')}}">Contact</a></li>
                             @guest
                             <li class="ml-xl-3 login"><a href="{{url('login')}}"><span class="border-left pl-xl-4"></span>Log In</a></li>
                             <li><a href="{{url('register')}}">Register</a></li>
@@ -77,6 +81,11 @@
                             </li>
                             @endguest
                             <li><a href="#" class="cta"><span class="bg-primary text-white rounded">+ Post an Ad</span></a></li>
+                            @if(app()->getLocale()=='en')
+                            <li><a href="{{url('lang/ar')}}">ع</a></li>
+                            @else
+                            <li><a href="{{url('lang/en')}}">En</a></li>
+                            @endif
                         </ul>
                     </nav>
                 </div>

@@ -74,8 +74,8 @@ class ItemController extends Controller
     {
         $categories = Category::pluck('name', 'id');
         $locations = Location::pluck('name', 'id');
-        $item=Item::findOrFail($id);
-        
+        $item = Item::findOrFail($id);
+
         return view('items.edit')
             ->with('locations', $locations)
             ->with('categories', $categories)
@@ -101,5 +101,33 @@ class ItemController extends Controller
         $item = Item::findOrFail($id);
         $item->destroy($id);
         return redirect('admin/items');
+    }
+
+    function rate(Request $request)
+    {
+        if ($request->has('item_id') && $request->has('rate')) {
+            $rate = $request['rate'];
+            if ($rate < 1)
+                $rate = 1;
+            else if ($rate > 5)
+                $rate = 5;
+            $item_id = $request['item_id'];
+            
+            if(!session()->has('items')){
+                session(['items'=>[]]);
+            }
+            $items = session('items');
+
+            if(!in_array($item_id,$items)){
+                $item = Item::findOrFail($item_id);
+                $item['rate'] = ($item['rate_count']*$item['rate'] + $rate)/($item['rate_count']+1);
+                $item['rate_count']=$item['rate_count']+1;
+                $item->save();
+
+                
+                array_push($items,$item_id);
+                session(['items'=>$items]);
+            }            
+        }
     }
 }

@@ -32,8 +32,8 @@
                     </div>
                 </div>
 
-                <h4 class="h5 mb-4 text-black">Description</h4>
-                {{$item['details']}}
+                <h4 class="h5 mb-4 text-black">Description</h4>                
+                {!! $item['details'] !!}
             </div>
             <div class="col-lg-3 ml-auto">
 

@@ -13,7 +13,7 @@
 
 Route::get('/', 'PageController@index');
 Route::get('/items/{id}', 'ItemController@show');
-
+Route::post('items/rate','ItemController@rate');
 Route::group(['middleware' => 'auth','prefix'=>'admin'], function () {
     // Route::get('categories', 'CategoryController@index');
     // Route::get('categories/create', 'CategoryController@create');
@@ -24,7 +24,11 @@ Route::group(['middleware' => 'auth','prefix'=>'admin'], function () {
 
     Route::resource('categories','CategoryController');
     Route::resource('locations','LocationController');
+    
     Route::resource('items','ItemController');
 });
 
 Auth::routes();
+
+Route::get('lang/{lang}','PageController@setLang');
+Route::get('/contact','PageController@contact');
