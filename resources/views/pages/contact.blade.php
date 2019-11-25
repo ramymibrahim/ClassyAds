@@ -10,7 +10,16 @@
 
                 <div class="row justify-content-center mb-4">
                     <div class="col-md-8 text-center">
-                        <h1 class="" data-aos="fade-up">Contact US</h1>                        
+                        <h1 class="" data-aos="fade-up">Contact US</h1>
+
+
+                        <form action="{{url('/contact')}}" method="post">
+                            @csrf
+                            <input name="name" placeholder="Name" class="form-control" required />
+                            <input type="email" name="email" placeholder="Email" class="form-control" required />
+                            <textarea placeholder="Message...." name="message" required class="form-control"></textarea>
+                            <button class="btn btn-success">Send Email</button>
+                        </form>
                     </div>
                 </div>
 

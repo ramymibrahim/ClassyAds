@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Item;
 use App\Location;
+use App\Mail\ContactMail;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Illuminate\Support\Facades\Session;
 
 class PageController extends Controller
 {
@@ -18,8 +22,8 @@ class PageController extends Controller
         //View::share('categories',['1','2','3']);
     }
     public function index(Request $request)
-    {           
-        View::share('page','home');
+    {
+        View::share('page', 'home');
         $categories = Category::all();
         $locations = Location::all();
 
@@ -51,17 +55,39 @@ class PageController extends Controller
         ]);
     }
 
-    public function contact(){
-        View::share('page','contact');
+    public function contact()
+    {
+        View::share('page', 'contact');
         return view('pages.contact');
     }
 
+    public function sendContact(Request $request)
+    {
+        $when = now()->addMinutes(5);
+        $obj =  new ContactMail($request->all());
+        Mail::to([
+            "ramymibrahim@yahoo.com", "ramyibrahim89@gmail.com"
+        ])->later($when, $obj);
+
+        //->send()
+        //->queue()
+        Session::flash('alert-success', 'Your mail has been sent successfully');
+        return redirect('/');
+    }
     //localhost:8000/lang/ar
     //localhost:8000/lang/en    
-    public function setLang($lang){        
-        if(in_array($lang,['ar','en'])){
-            session(['lang'=>$lang]);                        
-        }        
+    public function setLang($lang)
+    {
+        if (in_array($lang, ['ar', 'en'])) {
+            session(['lang' => $lang]);
+        }
         return redirect()->back();
+    }
+
+    public function admin()
+    {        
+        if (!Gate::allows('subManage'))
+            return abort(404);
+        return view('pages.admin');
     }
 }

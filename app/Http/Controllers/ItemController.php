@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Item::class);
+    }
+    
     public function index(Request $request)
     {
 

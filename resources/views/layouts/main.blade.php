@@ -79,6 +79,7 @@
                                     {{csrf_field()}}
                                 </form>
                             </li>
+                            <li class="ml-xl-3 login"><a href="{{url('admin')}}">Admin</a></li>
                             @endguest
                             <li><a href="#" class="cta"><span class="bg-primary text-white rounded">+ Post an Ad</span></a></li>
                             @if(app()->getLocale()=='en')

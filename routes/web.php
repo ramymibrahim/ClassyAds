@@ -22,13 +22,15 @@ Route::group(['middleware' => 'auth','prefix'=>'admin'], function () {
     // Route::put('categories/{id}', 'CategoryController@update');
     // Route::delete('categories/{id}', 'CategoryController@destroy');
 
-    Route::resource('categories','CategoryController');
-    Route::resource('locations','LocationController');
-    
-    Route::resource('items','ItemController');
+
+    Route::resource('locations','LocationController')->middleware('can:admin');
+    Route::resource('categories','CategoryController')->middleware('can:manage');    
+    Route::resource('items','ItemController')->middleware('can:subManage');  
+    Route::get('/','PageController@admin')->middleware('can:subManage');
 });
 
 Auth::routes();
 
 Route::get('lang/{lang}','PageController@setLang');
 Route::get('/contact','PageController@contact');
+Route::post('/contact','PageController@sendContact');
